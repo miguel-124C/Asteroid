@@ -1,0 +1,75 @@
+unit CBala;
+
+interface
+uses
+  Vcl.Forms,
+  SysUtils,
+  Classes,
+  Vcl.Graphics,
+  Vcl.ExtCtrls,
+  Vcl.Controls;
+type
+
+  Bala = class
+
+    color : TColor;
+    Timer  : TTimer;
+    Cx    : integer;
+    Cy    : integer;
+
+  private
+
+  public
+     constructor Create( color: TColor; Cx, Cy: integer );
+     procedure iniciarTimer();
+     procedure OnTimer(Sender: TObject);
+     procedure dibujarBala;
+
+  end;
+
+implementation
+
+{ Bala }
+
+constructor Bala.Create(color: TColor; Cx, Cy: integer);
+begin
+  Self.color := color;
+  Self.Cx    := Cx;
+  Self.Cy    := Cy;
+end;
+
+procedure Bala.OnTimer(Sender: TObject);
+begin
+  Cx := Cx - 1;
+  Cy := Cy - 1;
+  if (Cx < 0) or (Cy < 0) then begin
+    Timer.Enabled := False;
+  end;
+
+end;
+
+procedure Bala.dibujarBala;
+begin
+
+
+end;
+
+procedure Bala.iniciarTimer;
+begin
+  Application.Initialize;
+
+  Timer := TTimer.Create(nil);
+  try
+    Timer.OnTimer := OnTimer;
+
+    Timer.Interval := 500;
+
+    Timer.Enabled := True;
+
+    Application.Run;
+  finally
+    Timer.Free;
+  end;
+end;
+
+end.

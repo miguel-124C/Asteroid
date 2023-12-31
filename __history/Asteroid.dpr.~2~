@@ -1,0 +1,16 @@
+program Asteroid;
+
+uses
+  Vcl.Forms,
+  Pantalla in 'Pantalla.pas' {Form1},
+  CNave in 'CNave.pas',
+  CBala in 'CBala.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.Run;
+end.

@@ -1,0 +1,92 @@
+unit CNave;
+
+interface
+uses
+  Types,  Vcl.Graphics,
+  Vcl.Controls, CBala;
+
+type
+  Nave = class
+
+    color: TColor;
+
+    ancho   : integer;
+    alto    : integer;
+
+    Centro  : TPoint;
+    tamanio : integer;
+    angulo  : integer;
+    Punto1, Punto2, Punto3: TPoint;
+
+    Balas : Array of Bala;
+  private
+
+  public
+    constructor Create( x, y, tam: integer );
+    procedure setPosition( newCx, newCy: integer );
+    procedure dibujarNave( pantalla: TCanvas );
+    procedure dibujarBala( pantalla: TCanvas );
+    function destruirBala( bala: Bala ): boolean;
+    procedure addBala;
+
+  end;
+
+implementation
+
+{ Nave }
+
+
+constructor Nave.Create( x, y, tam: integer );
+begin
+  Self.color := clWhite;
+  tamanio := tam;
+  Centro := Point(x, y);
+end;
+
+procedure Nave.addBala;
+var
+  b : Bala;
+begin
+  b := Bala.Create(clYellow,10,10);
+  SetLength(Balas, Length(Balas) + 1);
+  Balas[High(Balas)] := b;
+end;
+
+procedure Nave.dibujarBala( pantalla: TCanvas );
+var
+  b: Bala;
+begin
+ // Recorrer el array de balas usando un bucle for
+  for b in Balas do
+  begin
+    b.dibujarBala( pantalla );
+  end;
+end;
+
+function Nave.destruirBala(bala: Bala): boolean;
+begin
+
+  result := (bala.Cx < 0) or (bala.Cy < 0);
+  
+end;
+
+procedure Nave.setPosition(newCx, newCy: integer);
+begin
+  Cx := newCx;
+  Cy := newCy;
+end;
+
+procedure Nave.dibujarNave( pantalla: TCanvas );
+begin
+
+  pantalla.Brush.Color := color;
+  // Dibuja La nave
+  pantalla.Polygon([
+    TPoint.Create( Cx - ancho div 2, Cy + alto div 2),
+    TPoint.Create( Cx, Cy - alto div 2),
+    TPoint.Create( Cx + ancho div 2, Cy + alto div 2 )
+  ]);
+
+end;
+
+end.
